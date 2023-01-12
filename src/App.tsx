@@ -1,12 +1,10 @@
-import { Route, Routes } from "react-router-dom";
-import { RepoManager, SingleIssue } from "./features/repositories/repository";
+import { RepoManager } from "./features/repositories/components/RepoManager";
 
 function App() {
   return (
-    <Routes>
-      <Route path="/" element={<RepoManager />} />
-      <Route path="/issues/:number" element={<SingleIssue />} />
-    </Routes>
+    <>
+      <RepoManager />
+    </>
   );
 }
 

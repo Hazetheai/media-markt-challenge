@@ -32,7 +32,8 @@ const ISSUE_FRAGMENT = gql`
   }
 `;
 
-export const api = createApi({
+export const repoSearchApi = createApi({
+  reducerPath: "repoSearch",
   baseQuery: graphqlRequestBaseQuery({
     url: "https://api.github.com/graphql",
     requestHeaders: {
@@ -214,4 +215,4 @@ export const {
   useGetMultipleIssuesQuery,
   useGetIssueByNumberQuery,
   useGetIssuesBySearchTermQuery,
-} = api;
+} = repoSearchApi;
