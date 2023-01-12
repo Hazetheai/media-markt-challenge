@@ -14,14 +14,18 @@ export const IssuesCountStat: React.FC = () => {
     searchTerm,
     titleOrBody,
   } = useAppSelector((state) => state.repoSearchConfig);
-  const { data: allIssuesData } = useGetMultipleIssuesQuery(
-    { cursor, per_page, paginationDirection, states: repoStates },
-    { refetchOnMountOrArgChange: true }
-  );
-  const { data: issuesBySearchTerm } = useGetIssuesBySearchTermQuery(
-    { searchTerm, per_page, state: repoStates[0], titleOrBody },
-    { refetchOnMountOrArgChange: true }
-  );
+  const { data: allIssuesData } = useGetMultipleIssuesQuery({
+    cursor,
+    per_page,
+    paginationDirection,
+    states: repoStates,
+  });
+  const { data: issuesBySearchTerm } = useGetIssuesBySearchTermQuery({
+    searchTerm,
+    per_page,
+    state: repoStates[0],
+    titleOrBody,
+  });
 
   const totalCount = !!searchTerm
     ? issuesBySearchTerm?.search.issueCount

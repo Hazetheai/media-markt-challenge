@@ -7,6 +7,7 @@ import {
   Icon,
   Input,
 } from "@chakra-ui/react";
+import { colors } from "App";
 import { useAppDispatch, useAppSelector } from "app/hooks";
 import {
   useGetMultipleIssuesQuery,
@@ -22,14 +23,14 @@ import {
 import { useLocation, useParams, Link } from "react-router-dom";
 import {
   paginate,
-  toggleRepoStates,
+  toggleIssueStates,
   setSearchTerm,
   toggleSearchDestination,
 } from "../repoSearchSlice";
 
-export const RepoSearchHeader = () => {
+export const IssueSearchHeader = () => {
   const location = useLocation();
-  const { number } = useParams();
+
   const dispatch = useAppDispatch();
 
   const {
@@ -45,14 +46,18 @@ export const RepoSearchHeader = () => {
     data: allIssuesData,
     isLoading,
     isFetching,
-  } = useGetMultipleIssuesQuery(
-    { cursor, per_page, paginationDirection, states: repoStates },
-    { refetchOnMountOrArgChange: true }
-  );
-  const { data: issuesBySearchTerm } = useGetIssuesBySearchTermQuery(
-    { searchTerm, per_page, state: repoStates[0], titleOrBody },
-    { refetchOnMountOrArgChange: true }
-  );
+  } = useGetMultipleIssuesQuery({
+    cursor,
+    per_page,
+    paginationDirection,
+    states: repoStates,
+  });
+  const { data: issuesBySearchTerm } = useGetIssuesBySearchTermQuery({
+    searchTerm,
+    per_page,
+    state: repoStates[0],
+    titleOrBody,
+  });
 
   const totalCount = !!searchTerm
     ? issuesBySearchTerm?.search.issueCount
@@ -74,15 +79,26 @@ export const RepoSearchHeader = () => {
     <Box>
       <HStack spacing="14px" p={4}>
         {location.pathname !== "/" ? (
-          <Flex wrap="wrap" bg="#011627" color="white">
+          <Flex wrap="wrap" color="white">
             <Link to={`/`}>
-              <Heading size="xl">&lt;- All Repos</Heading>
+              <Heading
+                bgColor={colors.primary}
+                color={"white"}
+                p={4}
+                rounded={10}
+                size="xl"
+              >
+                <Icon as={MdArrowBack} />
+                All Issues
+              </Heading>
             </Link>
-            <Heading size="md"> #{number}</Heading>
           </Flex>
         ) : (
           <>
             <Button
+              bgColor={colors.primary}
+              rounded={10}
+              color={"white"}
               onClick={() => {
                 if (currPageInfo) {
                   dispatch(
@@ -101,10 +117,12 @@ export const RepoSearchHeader = () => {
             )}`}</Box>
 
             <Button
+              bgColor={colors.primary}
+              rounded={10}
+              color={"white"}
               padding={4}
-              background="Highlight"
               onClick={() => {
-                dispatch(toggleRepoStates({}));
+                dispatch(toggleIssueStates({}));
               }}
             >
               {[
@@ -117,6 +135,9 @@ export const RepoSearchHeader = () => {
               {repoStates[0]} Issues
             </Button>
             <Button
+              bgColor={colors.primary}
+              rounded={10}
+              color={"white"}
               onClick={() => {
                 if (currPageInfo) {
                   dispatch(
@@ -135,10 +156,15 @@ export const RepoSearchHeader = () => {
               placeholder="Search"
               onChange={(e) => dispatch(setSearchTerm(e.target.value))}
               value={searchTerm}
+              p={2}
+              border="4px solid #colors.primary"
+              rounded={10}
             />
             <Button
+              bgColor={colors.primary}
+              rounded={10}
+              color={"white"}
               padding={4}
-              background="Highlight"
               onClick={() => {
                 dispatch(toggleSearchDestination({}));
               }}
@@ -146,7 +172,13 @@ export const RepoSearchHeader = () => {
               Search {titleOrBody}
             </Button>
             {!!searchTerm && (
-              <Button onClick={(e) => dispatch(setSearchTerm(""))}>
+              <Button
+                bgColor={colors.primary}
+                p={4}
+                rounded={10}
+                color={"white"}
+                onClick={(e) => dispatch(setSearchTerm(""))}
+              >
                 <Icon as={MdHighlightOff} />
                 Clear
               </Button>

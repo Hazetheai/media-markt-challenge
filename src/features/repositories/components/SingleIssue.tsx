@@ -8,7 +8,10 @@ import {
   ListIcon,
   Spacer,
   Text,
+  Badge,
+  HStack,
 } from "@chakra-ui/react";
+import { colors } from "App";
 import { useGetIssueByNumberQuery } from "app/services/repos/repos";
 import { MdChatBubble } from "react-icons/md";
 import { useParams } from "react-router-dom";
@@ -47,6 +50,25 @@ export const SingleIssue: React.FC = () => {
         <div>{state}</div>
         <strong>@{author.login}</strong>
         <div>{bodyText}</div>
+        <List display={"flex"}>
+          <HStack spacing="24px">
+            {labels?.edges?.map((label, idx, arr) => (
+              <>
+                <ListItem m={2}>
+                  <Badge
+                    bgGradient={`linear(to-l, ${colors.primary}, #FF0080)`}
+                    color={"white"}
+                    p={4}
+                    rounded={10}
+                    title={label.node.description}
+                  >
+                    {label.node.name}
+                  </Badge>
+                </ListItem>
+              </>
+            ))}
+          </HStack>
+        </List>
       </Box>
       <Divider />
       <List spacing={3} mt={6}>

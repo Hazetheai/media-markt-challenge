@@ -1,6 +1,6 @@
 export const repoStatuses = ["OPEN", "CLOSED"] as const;
-export type RepoStatusTuple = typeof repoStatuses;
-export type RepoStatus = RepoStatusTuple[number];
+export type IssueStatusTuple = typeof repoStatuses;
+export type IssueStatus = IssueStatusTuple[number];
 
 export interface IssueComment {
   author: {
@@ -12,8 +12,13 @@ export interface IssueComment {
   id: string;
 }
 
+export interface Label {
+  id: string;
+  description: string;
+  name: string;
+}
 export interface Issue {
-  labels: Array<any>;
+  labels: { edges: Array<{ cursor: string | null; node: Label }> };
   title: string;
   author: {
     avatarUrl: string;
@@ -33,7 +38,7 @@ export interface Issue {
   };
 }
 
-export interface Repo {
+export interface Issue {
   issues: {
     edges: Array<{ cursor: string | null; node: Issue }>;
     totalCount: number;
@@ -46,7 +51,7 @@ export interface Repo {
   };
 }
 
-export interface RepoFromSearchTerm {
+export interface IssueFromSearchTerm {
   edges: Array<{ cursor: string | null; node: Issue }>;
   issueCount: number;
   pageInfo: {
@@ -58,10 +63,10 @@ export interface RepoFromSearchTerm {
 }
 
 export interface GetMultipleIssuesResponse {
-  repository: Repo;
+  repository: Issue;
 }
 export interface GetIssuesBySearchTermResponse {
-  search: RepoFromSearchTerm;
+  search: IssueFromSearchTerm;
 }
 
 export interface IssueResponse {

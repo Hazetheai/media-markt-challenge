@@ -1,18 +1,18 @@
 import type { PayloadAction } from "@reduxjs/toolkit";
 import { createSlice } from "@reduxjs/toolkit";
-import { Repo, RepoStatus } from "../../app/services/repos/types";
+import { Issue, IssueStatus } from "../../app/services/repos/types";
 
-interface RepoSearch {
+interface IssueSearch {
   page: number;
   cursor: string | null;
   searchTerm: string;
   titleOrBody: "title" | "body";
-  repoStates: [RepoStatus];
+  repoStates: [IssueStatus];
   paginationDirection: "forward" | "backward";
   per_page: number;
 }
 
-const initialState: RepoSearch = {
+const initialState: IssueSearch = {
   page: 1,
   cursor: null,
   searchTerm: "",
@@ -29,8 +29,8 @@ export const repoSearchSlice = createSlice({
     paginate: (
       state,
       action: PayloadAction<{
-        direction: RepoSearch["paginationDirection"];
-        pageInfo: Repo["issues"]["pageInfo"];
+        direction: IssueSearch["paginationDirection"];
+        pageInfo: Issue["issues"]["pageInfo"];
       }>
     ) => {
       state.paginationDirection = action.payload.direction;
@@ -53,7 +53,7 @@ export const repoSearchSlice = createSlice({
     toggleSearchDestination: (state, action) => {
       state.titleOrBody = state.titleOrBody === "body" ? "title" : "body";
     },
-    toggleRepoStates: (state, action) => {
+    toggleIssueStates: (state, action) => {
       state.repoStates = [state.repoStates[0] === "CLOSED" ? "OPEN" : "CLOSED"];
     },
   },
@@ -62,7 +62,7 @@ export const repoSearchSlice = createSlice({
 export const {
   paginate,
   setSearchTerm,
-  toggleRepoStates,
+  toggleIssueStates,
   toggleSearchDestination,
 } = repoSearchSlice.actions;
 

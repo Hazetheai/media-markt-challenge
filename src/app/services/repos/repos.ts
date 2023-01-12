@@ -3,7 +3,7 @@ import { gql } from "graphql-request";
 import { graphqlRequestBaseQuery } from "@rtk-query/graphql-request-base-query";
 import {
   GetMultipleIssuesResponse,
-  RepoStatus,
+  IssueStatus,
   Issue,
   GetIssuesBySearchTermResponse,
   IssueResponse,
@@ -22,9 +22,11 @@ const ISSUE_FRAGMENT = gql`
       avatarUrl
       login
     }
-    labels(first: 5) {
+    labels(first: 10) {
       edges {
         node {
+          id
+          description
           name
         }
       }
@@ -49,7 +51,7 @@ export const repoSearchApi = createApi({
         owner?: string;
         name?: string;
         paginationDirection: "forward" | "backward";
-        states: [RepoStatus];
+        states: [IssueStatus];
       }
     >({
       query: ({
@@ -161,7 +163,7 @@ export const repoSearchApi = createApi({
         searchTerm: string;
         owner?: string;
         name?: string;
-        state: RepoStatus;
+        state: IssueStatus;
         per_page: number;
         titleOrBody: "title" | "body";
       }
@@ -177,7 +179,7 @@ export const repoSearchApi = createApi({
         const query = `"repo:${owner}/${name} is:issue is:${state.toLowerCase()} ${
           searchTerm || ""
         } in:${titleOrBody}"`;
-        console.log("query", query);
+
         return {
           document: gql`
           ${ISSUE_FRAGMENT}
