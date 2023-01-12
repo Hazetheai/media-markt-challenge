@@ -27,6 +27,8 @@
 #### Successful
 
 - Use Redux
+- Use Static Typing
+- Use ES6
 - Implement caching strategy
 - Browse React Repo Issues
 - Paginate forward through results
@@ -42,3 +44,9 @@
 - Styling
 - Layout could use more of the provided data (comment reactions etc.)
 - Structure: Better separation of concerns
+
+#### Unsuccessful
+
+- Implement automated testing
+- pagination for comments
+- Handle incorrect input / unusual behaviour
